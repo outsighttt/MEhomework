@@ -29,3 +29,5 @@
 #def strcounter(s):
     #return {x:s.count(x) for x in set(s)}
 #print(strcounter('sadjasljdaslkjalkjaew'))
+def palindrome(string):
+    return string==string[::-1]
