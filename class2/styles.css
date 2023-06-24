@@ -38,9 +38,14 @@ color: yellow;
 font-style: oblique;
 text-align: center;
 font-size: 24px;
+<<<<<<< HEAD
 text-shadow: 2px 1px red;
 color: green;
 }
 ol{
 background:green;
 }
+=======
+text-shadow: 2px 1px green;
+}
+>>>>>>> 7e241bf1f36881caad26da725a46682466a49112
