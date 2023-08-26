@@ -3,18 +3,27 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy
 
 User = get_user_model()
 
+def validate_title(value):
+    if value.startswith('?'):
+        raise ValidationError(
+            gettext_lazy('Заголовок не может начинаться с символа "?"'),
+            params={'value':value}
+        )
+
 class Advertisements(models.Model):
-    title = models.CharField(verbose_name='заголовок', max_length=128)
+    title = models.CharField(verbose_name='заголовок', max_length=128, validators=[validate_title])
     description = models.TextField('описание объявления')
     price = models.DecimalField('цена', max_digits=10, decimal_places=2)
     auction = models.BooleanField('возможность торга', help_text='Отметьте если торг уместен.')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, verbose_name='пользователь', on_delete=models.CASCADE)
-    image=models.ImageField('изображение', upload_to='advertisements/', default='adv.png')
+    image=models.ImageField('изображение', upload_to='advertisements/')
 
     @admin.display(description='дата создания')
     def created_date(self):

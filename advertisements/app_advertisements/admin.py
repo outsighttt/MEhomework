@@ -6,7 +6,7 @@ class AdvertisementAdmin(admin.ModelAdmin):
                     'show_image']
     list_filter = ['auction', 'created_at']
 
-    actions = ['make_auction_as_false', 'make_auction_as_true', 'set_default_image']
+    actions = ['make_auction_as_false', 'make_auction_as_true', 'set_default_image', 'delete_image']
 
     fieldsets = (
         ('Общее', {'fields': ('title', 'user', 'description', 'image')}),
@@ -24,5 +24,9 @@ class AdvertisementAdmin(admin.ModelAdmin):
     @admin.action(description='установить изображение по умолчанию')
     def set_default_image(self, request, queryset):
         queryset.update(image='adv.png')
+
+    @admin.action(description='удалить изображение')
+    def delete_image(self, request, queryset):
+        queryset.update(image='')
 
 admin.site.register(Advertisements, AdvertisementAdmin)

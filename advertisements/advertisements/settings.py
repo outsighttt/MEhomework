@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
     'app_advertisements',
     'app_lesson_4',
+    'app_auth'
 ]
 
 MIDDLEWARE = [
