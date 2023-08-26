@@ -28,26 +28,19 @@ def login_view(request):
 
 
 def register_view(request):
-    # if request.method == 'POST':
-    #     form = UserRegistrationForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         cleaned_form = form.cleaned_data
-    #         if cleaned_form['password1'] == cleaned_form['password2']:
-    #             cleaned_form['password'] = cleaned_form['password1']
-    #             cleaned_form.pop('password1')
-    #             cleaned_form.pop('password2')
-    #         user_model = get_user_model()(**cleaned_form)
-    #         user_model.user = request.user
-    #         user_model.save()
-    #         url = reverse('main-page')
-    #         return redirect(url)
-    #     else:
-    #         print(form.errors)
-    # else:
-    #     form = UserRegistrationForm()
-    # context = {'form': form}
-    # return render(request, 'app_auth/register.html', context)
-    return render(request, 'app_auth/register.html')
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            print(form['username'].value)
+            form.save()
+            user = authenticate(request, username=form['username'].value(), password=form['password1'].value())
+            login(request, user)
+            url = reverse('profile')
+            return redirect(url)
+    else:
+        form = UserRegistrationForm()
+    context = {'form': form}
+    return render(request, 'app_auth/register.html', context)
 
 
 def logout_view(request):
