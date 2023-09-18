@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy
+from django.urls import reverse
 
 User = get_user_model()
 
@@ -46,6 +47,9 @@ class Advertisements(models.Model):
     class Meta:
         db_table = 'advertisements'
         verbose_name = 'Объявление'
+
+    def get_absolute_url(self):
+        return reverse('adv_detail', kwargs={'pk':self.pk})
 
     def __str__(self):
         return "%s object (%s)" % (self.__class__.__name__, f'id={self.id}, title={self.title}, price={float(self.price)}')

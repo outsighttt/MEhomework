@@ -7,7 +7,8 @@ from .forms import UserRegistrationForm
 
 @login_required(login_url=reverse_lazy('login'))
 def profile_view(request):
-    return render(request, 'app_auth/profile.html')
+    context = {'username': request.user.get_username()}
+    return render(request, 'app_auth/profile.html', context=context)
 
 
 def login_view(request):
@@ -31,7 +32,6 @@ def register_view(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
-            print(form['username'].value)
             form.save()
             user = authenticate(request, username=form['username'].value(), password=form['password1'].value())
             login(request, user)
